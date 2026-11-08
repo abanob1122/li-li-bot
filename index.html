@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ورشة لي لي / الكينج</title>
-    <!-- مكتبة تيليجرام Web App الرسمية -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
@@ -66,6 +65,14 @@
         .btn:hover {
             background-color: #1d4ed8;
         }
+        #successMessage {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        #successMessage h3 {
+            color: #16a34a;
+        }
     </style>
 </head>
 <body>
@@ -92,11 +99,16 @@
 
             <button type="submit" class="btn">تأكيد حجز التذكرة 🎫</button>
         </form>
+
+        <div id="successMessage">
+            <h3>🎉 تم إرسال طلبك بنجاح!</h3>
+            <p>جارٍ تسجيل تذكرتك وإرسال التفاصيل على الشات...</p>
+        </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // توسيع التطبيق ليملا شاشة الموبايل
+        tg.expand();
 
         document.getElementById("bookingForm").addEventListener("submit", function(e) {
             e.preventDefault();
@@ -105,16 +117,21 @@
             let model = document.getElementById("deviceModel").value;
             let issue = document.getElementById("deviceIssue").value;
 
-            // تجهيز البيانات لإرسالها للبوت
             let data = {
                 name: name,
                 model: model,
                 issue: issue
             };
 
-            // إرسال البيانات للـ Bot وإغلاق التطبيق المصغر
-            tg.sendData(JSON.stringify(data));
-            tg.close();
+            // إخفاء الفورمة وإظهار رسالة النجاح
+            document.getElementById("bookingForm").style.display = "none";
+            document.getElementById("successMessage").style.display = "block";
+
+            // إرسال البيانات للبوت وإغلاق التطبيق بعد ثانيتين
+            setTimeout(function() {
+                tg.sendData(JSON.stringify(data));
+                tg.close();
+            }, 1500);
         });
     </script>
 
