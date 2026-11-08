@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورشة لي لي / الكينج</title>
+    <!-- مكتبة تيليجرام Web App الرسمية -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #1e293b;
+        }
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #f8fafc;
+        }
+        .btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>🛠️ لي لي / الكينج</h2>
+        <div class="subtitle">حجز صيانة الموبايل الفوري - باكوس، الإسكندرية</div>
+
+        <form id="bookingForm">
+            <label for="customerName">👤 اسمك الكريم:</label>
+            <input type="text" id="customerName" placeholder="اكتب اسمك هنا..." required>
+
+            <label for="deviceModel">📱 نوع وموديل الموبايل:</label>
+            <select id="deviceModel" required>
+                <option value="" disabled selected>اختار الموديل...</option>
+                <option value="iPhone (آيفون)">آيفون (iPhone)</option>
+                <option value="Samsung (سامسونج)">سامسونج (Samsung)</option>
+                <option value="Xiaomi / Oppo (شاومي أو أوبو)">شاومي / أوبو (Xiaomi / Oppo)</option>
+                <option value="أخرى">ماركة أخرى</option>
+            </select>
+
+            <label for="deviceIssue">⚠️ وصف العطل أو المشكلة:</label>
+            <input type="text" id="deviceIssue" placeholder="مثال: شاشة مكسورة، شحن وهمي..." required>
+
+            <button type="submit" class="btn">تأكيد حجز التذكرة 🎫</button>
+        </form>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // توسيع التطبيق ليملا شاشة الموبايل
+
+        document.getElementById("bookingForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            let name = document.getElementById("customerName").value;
+            let model = document.getElementById("deviceModel").value;
+            let issue = document.getElementById("deviceIssue").value;
+
+            // تجهيز البيانات لإرسالها للبوت
+            let data = {
+                name: name,
+                model: model,
+                issue: issue
+            };
+
+            // إرسال البيانات للـ Bot وإغلاق التطبيق المصغر
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        });
+    </script>
+
+</body>
+</html>
